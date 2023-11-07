@@ -50,7 +50,7 @@ class Student(Base):
     name = Column(String(100))
     linkedIN_profile = Column(String(500))
     salary = Column(Integer)
-    CGPA = Column(Double(precision=2))
+    CGPA = Column(Double())
     companyID = Column(Integer, ForeignKey('company.CompanyID'))
     adminID = Column(Integer, ForeignKey('administrator.AdminID'))
 
