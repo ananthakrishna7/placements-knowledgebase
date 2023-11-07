@@ -77,7 +77,7 @@ def load_logged_in_user():
     if user_id is None:
         g.user = None
     else:
-        g.user = db_session.execute(select(Administrator).filter_by(AdminID=user_id)).scalar_one()
+        g.user = db_session.execute(select(Administrator).filter_by(AdminID=user_id)).scalar_one() # there is an error that crops up if we do not logout and then re-initialize the database
 
 @bp.route('/logout')
 def logout():
