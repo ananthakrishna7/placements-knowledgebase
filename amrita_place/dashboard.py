@@ -11,11 +11,16 @@ from sqlalchemy import text # required if we are going to use queries
 
 bp = Blueprint('dashboard', __name__, url_prefix='/dashboard')
 
-
+# @bp.route('/')
+# def dashboard():
+#     return render_template('dashboard/src/index.html')
 @bp.route('/profile')
 @login_required
 def profile():
     return render_template('dashboard/profile.html')
+
+# @bp.route('/profile')
+# @login_required
 
 # @bp.route('/dashboard')
 

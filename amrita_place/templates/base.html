@@ -24,7 +24,7 @@
 				<ul class="nav__menu">
 					<li><a href="{{ url_for('landing.index')}}">Home</a></li>
 					{% if g.user %}
-					<li><a href="{{url_for('dashboard.profile')}}">Dashboard</a></li>
+					<li><a href="http://localhost:3000">Dashboard</a></li>
 					<li><span>{{ g.user['username'] }}</span></li>
 					<li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
 					{% else %}
