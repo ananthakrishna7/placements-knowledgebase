@@ -22,7 +22,7 @@
 			<div class="container nav__container">
 				<a href="index.html" style="color: #b10f56 "><h4>Amrita</h4></a>
 				<ul class="nav__menu">
-					<li><a href="{{ url_for('dashboard.index')}}">Home</a></li>
+					<li><a href="{{ url_for('landing.index')}}">Home</a></li>
 					{% if g.user %}
 					<li><a href="{{url_for('dashboard.profile')}}">Dashboard</a></li>
 					<li><span>{{ g.user['username'] }}</span></li>

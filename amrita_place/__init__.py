@@ -34,6 +34,10 @@ def create_app(test_config=None):
 
     from . import dashboard
     app.register_blueprint(dashboard.bp)
-    app.add_url_rule('/', endpoint='index') # this adds a rule. this ensures that url_for('index') url_for('dashboard.index') build the same url: /index. it is at the root because it is the main thing in our blogging website. that's why it does not have a url prefix. refer that website for a better understanding.
+    # app.add_url_rule('/', endpoint='index') # this adds a rule. this ensures that url_for('index') url_for('dashboard.index') build the same url: /index. it is at the root because it is the main thing in our blogging website. that's why it does not have a url prefix. refer that website for a better understanding.
+
+    from . import landing
+    app.register_blueprint(landing.bp)
+    app.add_url_rule('/', endpoint='index')
 
     return app
