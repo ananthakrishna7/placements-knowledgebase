@@ -8,7 +8,7 @@ from werkzeug.exceptions import abort
 from amrita_place.auth import login_required
 from amrita_place.database import db_session
 from amrita_place.models import *
-from sqlalchemy import text, select, exc # required if we are going to use queries
+from sqlalchemy import text, select, exc, func# required if we are going to use queries
 
 bp = Blueprint('dashboard', __name__, url_prefix='/dashboard')
 
@@ -18,25 +18,43 @@ def profile():
     return render_template('dashboard/profile.html')
 
 @bp.route('/bar')
-# @login_required # idk if this will cause problems with react. So commenting for now.
-def bar_data(): # this is like an API
-    return all_student_data() 
-
-@bp.route('/pie')
-def pie_data():
-    return all_student_data()
-
-def all_student_data():
-    students = db_session.execute(select(Student)).all()
-    index = 0 # to number the records
-    data = {} # shall be passed to react
-    print(students[1][0].roll_no)
-    for student in students:
-        stu = student[0].__dict__
-        stu.pop('_sa_instance_state')
-        data[index] = stu
-        index += 1
+# @login_required # this causes problems with react. So commenting for now.
+def bar(): # this displays company wise placements in the last ten years
+    students_aggr = db_session.execute(select(Student.pass_out_year, Company.name, func.count(Student.roll_no).label('count')).join(Company).group_by(Student.companyID)).all()
+    data = [] # shall be passed to react
+    for year in range(2013, 2023):
+            jason = {}
+            jason['year'] = year
+            data.append(jason)
+    for row in students_aggr:
+        print(row, row[0])
+        for jas in data:
+            if jas['year'] == row[0]: # add company count to respective years
+                jas[row[1]] = row[2]
     return data
+# pie is company composition for current year
+@bp.route('/line')
+def line():
+     student_placements = db_session.execute(select(Student.pass_out_year, func.count(Student.roll_no).label('count')).group_by(Student.branch)).all
+     data = []
+     for row in student_placements:
+          data.append({'year': row[0], 'placements': row[1]})
+# def process_data(query_result):
+#     index = 0 # to number the records
+#     data = {} # shall be passed to react
+#     # print(students[1][0].roll_no)
+#     for row in query_result:
+#         print(row, row[0])
+#         jason = {'year':row[0], 'company':, 'count':''}
+#         # dic.pop('_sa_instance_state', None)
+#         data[index] = dic
+#         index += 1
+#     return data
+
+# def all_student_data():
+#     students = db_session.execute(select(Student)).all()
+#     data = process_data(students)
+#     return data
 # @bp.route('/profile')
 # @login_required
 
