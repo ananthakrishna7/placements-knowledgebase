@@ -1,7 +1,7 @@
 # note: if something doesn't work we amy need to add app.teardown appcontext somethin something
 
 from flask import (
-        Blueprint, flash, g, redirect, render_template, request, url_for
+        Blueprint, flash, g, redirect, render_template, request, url_for, jsonify
         )
 from werkzeug.exceptions import abort
 
@@ -12,10 +12,12 @@ from sqlalchemy import text, select, exc, func# required if we are going to use 
 
 bp = Blueprint('dashboard', __name__, url_prefix='/dashboard')
 
+
+
 @bp.route('/profile')
-@login_required
 def profile():
-    return render_template('dashboard/profile.html')
+    user = db_session.execute(select(Administrator.Name, Administrator.AdminID).where(Administrator.AdminID == 1)).scalar_one()
+    return jsonify(user, 1)
 
 @bp.route('/bar')
 # @login_required # this causes problems with react. So commenting for now.
@@ -33,12 +35,28 @@ def bar(): # this displays company wise placements in the last ten years
                 jas[row[1]] = row[2]
     return data
 # pie is company composition for current year
+@bp.route('/pie')
+def pie():
+    data = []
+    current_comp = db_session.execute(select(Company.name, func.count(Student.roll_no)).join(Company).where(Student.pass_out_year == 2023).group_by(Company.name)).all()
+    for row in current_comp:
+        data.append({'id':row[0], 'label': row[0], 'value': row[1]}) # id, label, value, color
+    return data
+
 @bp.route('/line')
 def line():
-     student_placements = db_session.execute(select(Student.pass_out_year, func.count(Student.roll_no).label('count')).group_by(Student.branch)).all
-     data = []
-     for row in student_placements:
-          data.append({'year': row[0], 'placements': row[1]})
+    pass
+    #  student_placements = db_session.execute(select(Student.pass_out_year, Student.branch, func.count(Student.roll_no).label('count')).group_by(Student.branch)).all
+    #  data = []
+    #  for year in range(2013, 2023):
+    #         jason = {}
+    #         jason['year'] = year
+    #         data.append(jason)
+    #  for row in student_placements:
+    #     for jas in data:
+    #          if jas['year'] == row[0]:
+                  
+
 # def process_data(query_result):
 #     index = 0 # to number the records
 #     data = {} # shall be passed to react
