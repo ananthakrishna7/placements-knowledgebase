@@ -1,11 +1,26 @@
 import { ResponsivePie } from "@nivo/pie";
 import { tokens } from "../theme";
 import { useTheme } from "@mui/material";
-import { mockPieData as data } from "../data/mockData";
+import { useState, useEffect } from "react";
+import { mockPieData as data1 } from "../data/mockData";
 
 const PieChart = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [data, setdata] = useState([]);
+
+// Using useEffect for single rendering
+useEffect(() => {
+    // Using fetch to fetch the api from 
+    // flask server it will be redirected to proxy
+    fetch("/dashboard/pie").then((res) =>
+        res.json().then((data) => {
+            // Setting a data from api
+            setdata(data);
+        })
+    );
+}, []);
+console.log(data)
   return (
     <ResponsivePie
       data={data}
