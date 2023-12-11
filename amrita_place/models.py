@@ -51,6 +51,8 @@ class Student(Base):
     linkedIN_profile = Column(String(500))
     salary = Column(Integer)
     CGPA = Column(Double())
+    pass_out_year = Column(Integer)
+    branch = Column(Text)
     companyID = Column(Integer, ForeignKey('company.CompanyID'))
     adminID = Column(Integer, ForeignKey('administrator.AdminID'))
 
@@ -75,8 +77,8 @@ class PhoneNumber(Base):
 
 class Company(Base):
     __tablename__ = 'company'
-    logo = Column(String(500))
-    name = Column(String(100))
+    logo = Column(Text)
+    name = Column(Text)
     CompanyID = Column(Integer, primary_key=True)
 
     def __init__(self, logo, name):
