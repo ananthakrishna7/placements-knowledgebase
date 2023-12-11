@@ -16,6 +16,7 @@ import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutl
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
+import { useEffect} from "react";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -40,6 +41,20 @@ const Sidebar = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
+  const [data, setdata] = useState([]);
+
+  // Using useEffect for single rendering
+  useEffect(() => {
+      // Using fetch to fetch the api from 
+      // flask server it will be redirected to proxy
+      fetch("/dashboard/profile").then((res) =>
+          res.json().then((data) => {
+              // Setting a data from api
+              setdata(data);
+          })
+      );
+  }, []);
+  console.log(data)
 
   return (
     <Box
@@ -107,10 +122,10 @@ const Sidebar = () => {
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  Ed Roh
+                  {data[0]}
                 </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
-                  VP Fancy Admin
+                  {data[1]}
                 </Typography>
               </Box>
             </Box>
