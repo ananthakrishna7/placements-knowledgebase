@@ -4,10 +4,41 @@ import { tokens } from "../../theme";
 import { mockDataContacts } from "../../data/mockData";
 import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
+import { useState, useEffect } from "react";
 
 const Contacts = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [data, setdata] = useState([]);
+  const [cols, setColData] = useState([]);
+
+
+  // Using useEffect for single rendering
+  useEffect(() => {
+      // Using fetch to fetch the api from 
+      // flask server it will be redirected to proxy
+      fetch("/dashboard/profile").then((res) =>
+          res.json().then((data) => {
+              // Setting a data from api
+              setdata(data);
+          })
+      );
+  }, []);
+  console.log(data)
+
+  // Using useEffect for single rendering
+  useEffect(() => {
+    // Using fetch to fetch the api from 
+    // flask server it will be redirected to proxy
+    fetch("/dashboard/profile").then((res) =>
+        res.json().then((cols) => {
+            // Setting a data from api
+            setColData(cols);
+        })
+    );
+}, []);
+console.log(cols)
+
 
   const columns = [
     { field: "id", headerName: "ID", flex: 0.5 },
@@ -55,8 +86,8 @@ const Contacts = () => {
   return (
     <Box m="20px">
       <Header
-        title="CONTACTS"
-        subtitle="List of Contacts for Future Reference"
+        title="STUDENT INFORMATION"
+        subtitle="A comprehensive list of student data"
       />
       <Box
         m="40px 0 0 0"
@@ -91,7 +122,7 @@ const Contacts = () => {
         }}
       >
         <DataGrid
-          rows={mockDataContacts}
+          rows={mockDataContacts} // change this
           columns={columns}
           components={{ Toolbar: GridToolbar }}
         />
