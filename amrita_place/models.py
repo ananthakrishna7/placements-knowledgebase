@@ -52,7 +52,6 @@ class Student(Base):
     salary = Column(Integer)
     CGPA = Column(Double())
     pass_out_year = Column(Integer)
-    branch = Column(Text)
     companyID = Column(Integer, ForeignKey('company.CompanyID'))
     adminID = Column(Integer, ForeignKey('administrator.AdminID'))
 
