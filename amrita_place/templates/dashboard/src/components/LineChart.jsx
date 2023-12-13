@@ -1,11 +1,27 @@
 import { ResponsiveLine } from "@nivo/line";
 import { useTheme } from "@mui/material";
 import { tokens } from "../theme";
-import { mockLineData as data } from "../data/mockData";
+import { mockLineData as data1 } from "../data/mockData";
+import { useState, useEffect } from "react";
 
 const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const [data, setdata] = useState([]);
+
+// Using useEffect for single rendering
+useEffect(() => {
+    // Using fetch to fetch the api from 
+    // flask server it will be redirected to proxy
+    fetch("/dashboard/line").then((res) =>
+        res.json().then((data) => {
+            // Setting a data from api
+            setdata(data);
+        })
+    );
+}, []);
+console.log(data);
 
   return (
     <ResponsiveLine
@@ -62,7 +78,7 @@ const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
         tickSize: 0,
         tickPadding: 5,
         tickRotation: 0,
-        legend: isDashboard ? undefined : "transportation", // added
+        legend: isDashboard ? undefined : "Year", // added
         legendOffset: 36,
         legendPosition: "middle",
       }}
@@ -72,7 +88,7 @@ const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
         tickSize: 3,
         tickPadding: 5,
         tickRotation: 0,
-        legend: isDashboard ? undefined : "count", // added
+        legend: isDashboard ? undefined : "Salary", // added
         legendOffset: -40,
         legendPosition: "middle",
       }}
