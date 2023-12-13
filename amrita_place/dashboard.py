@@ -18,6 +18,12 @@ bp = Blueprint('dashboard', __name__, url_prefix='/dashboard')
 def profile():
     user = db_session.execute(select(Administrator.Name, Administrator.AdminID).where(Administrator.AdminID == 1)).scalar_one()
     return jsonify(user, 1)
+@bp.route('/companies')
+def companies():
+    data = []
+    comps_sal_place = db_session.execute(select(Company.CompanyID, Company.name, func.max(Student.salary).label('max_salary'), func.count(Student.roll_no)).join(Student).group_by(Company.CompanyID)).all()
+    for row in comps_sal_place:
+        pass
 
 @bp.route('/bar')
 # @login_required # this causes problems with react. So commenting for now.
@@ -46,10 +52,13 @@ def pie():
 @bp.route('/line') # branch wise salary. id and data. id is branch. data {x is year, y is avg_salary}
 def line():
     data = []
-    branches = db_session.execute(select(Student.branch).distinct(Student.branch)).all()
+    branches = db_session.execute(select(Degree.programID, Degree.branch).distinct(Degree.branch)).all()
     i = 0
+    roll_numbers = db.db_session.execute(select(StudentDegreeHolder.rollNumber, StudentDegreeHolder.ProgrammeID)).all()
+    # FINISH THIS LATER
     for branch in branches:
-        data.append({'id': branch[0], 'data': []})
+        data.append({'id': branch[1], 'data': []})
+        # this query has to be corrected accoring to the new schema
         branch_sal = db_session.execute(select(Student.pass_out_year, func.avg(Student.salary)).where(Student.branch == branch[0]).group_by(Student.pass_out_year).order_by(Student.pass_out_year)).all()
         for sal in branch_sal:
             data[i]['data'].append({'x': sal[0], 'y': sal[1]})
@@ -70,22 +79,13 @@ def line():
     #          if jas['year'] == row[0]:
                   
 
-# def process_data(query_result):
-#     index = 0 # to number the records
-#     data = {} # shall be passed to react
-#     # print(students[1][0].roll_no)
-#     for row in query_result:
-#         print(row, row[0])
-#         jason = {'year':row[0], 'company':, 'count':''}
-#         # dic.pop('_sa_instance_state', None)
-#         data[index] = dic
-#         index += 1
-#     return data
 
-# def all_student_data():
-#     students = db_session.execute(select(Student)).all()
-#     data = process_data(students)
-#     return data
+
+@bp.route('/studentData')
+def all_student_data():
+    students = db_session.execute(select(Student.roll_no, Student.name, Student.email_id, Company.name, Student.salary, Student.CGPA, Student.pass_out_year).join(Company)).all()
+    data = []
+    return data
 # @bp.route('/profile')
 # @login_required
 
