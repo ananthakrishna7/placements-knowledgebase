@@ -43,9 +43,22 @@ def pie():
         data.append({'id':row[0], 'label': row[0], 'value': row[1]}) # id, label, value, color
     return data
 
-@bp.route('/line')
+@bp.route('/line') # branch wise salary. id and data. id is branch. data {x is year, y is avg_salary}
 def line():
-    pass
+    data = []
+    branches = db_session.execute(select(Student.branch).distinct(Student.branch)).all()
+    i = 0
+    for branch in branches:
+        data.append({'id': branch[0], 'data': []})
+        branch_sal = db_session.execute(select(Student.pass_out_year, func.avg(Student.salary)).where(Student.branch == branch[0]).group_by(Student.pass_out_year).order_by(Student.pass_out_year)).all()
+        for sal in branch_sal:
+            data[i]['data'].append({'x': sal[0], 'y': sal[1]})
+        i += 1
+    return data
+    # branch_sal = db_session.execute(select(Student.branch, func.avg(Student.salary), Student.pass_out_year).group_by(Student.branch))
+    # for row in branch_sal:
+    #     data.append({'id': row[0], 'label': row[0], 'value': row[1]})
+    
     #  student_placements = db_session.execute(select(Student.pass_out_year, Student.branch, func.count(Student.roll_no).label('count')).group_by(Student.branch)).all
     #  data = []
     #  for year in range(2013, 2023):
