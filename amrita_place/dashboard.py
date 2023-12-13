@@ -18,12 +18,31 @@ bp = Blueprint('dashboard', __name__, url_prefix='/dashboard')
 def profile():
     user = db_session.execute(select(Administrator.Name, Administrator.AdminID).where(Administrator.AdminID == 1)).scalar_one()
     return jsonify(user, 1)
+
 @bp.route('/companies')
 def companies():
     data = []
-    comps_sal_place = db_session.execute(select(Company.CompanyID, Company.name, func.max(Student.salary).label('max_salary'), func.count(Student.roll_no)).join(Student).group_by(Company.CompanyID)).all()
+    comps_sal_place = db_session.execute(select(Company.CompanyID, Company.name, func.max(Student.salary).label('max_salary')).join(Student).group_by(Company.CompanyID)).all()
     for row in comps_sal_place:
         pass
+
+@bp.route('/studentData')
+def all_student_data():
+    students = db_session.execute(select(Student.roll_no, Student.name, Student.email_id, Company.name, Student.salary, Student.CGPA, Student.pass_out_year).join(Company)).all()
+    data = []
+    return data
+
+@bp.route('/companyPlacements')
+def all_compant_placements():
+    pass
+
+@bp.route('/create')
+def create_new_student():
+    pass
+
+@bp.route('/interviews')
+def interviews():
+    pass
 
 @bp.route('/bar')
 # @login_required # this causes problems with react. So commenting for now.
@@ -64,6 +83,10 @@ def line():
             data[i]['data'].append({'x': sal[0], 'y': sal[1]})
         i += 1
     return data
+
+@bp.route('/geography')
+def geography():
+    pass
     # branch_sal = db_session.execute(select(Student.branch, func.avg(Student.salary), Student.pass_out_year).group_by(Student.branch))
     # for row in branch_sal:
     #     data.append({'id': row[0], 'label': row[0], 'value': row[1]})
@@ -81,11 +104,7 @@ def line():
 
 
 
-@bp.route('/studentData')
-def all_student_data():
-    students = db_session.execute(select(Student.roll_no, Student.name, Student.email_id, Company.name, Student.salary, Student.CGPA, Student.pass_out_year).join(Company)).all()
-    data = []
-    return data
+
 # @bp.route('/profile')
 # @login_required
 
