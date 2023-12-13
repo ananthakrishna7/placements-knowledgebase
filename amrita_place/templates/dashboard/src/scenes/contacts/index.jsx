@@ -17,7 +17,7 @@ const Contacts = () => {
   useEffect(() => {
       // Using fetch to fetch the api from 
       // flask server it will be redirected to proxy
-      fetch("/dashboard/profile").then((res) =>
+      fetch("/dashboard/studentData").then((res) =>
           res.json().then((data) => {
               // Setting a data from api
               setdata(data);
@@ -25,20 +25,6 @@ const Contacts = () => {
       );
   }, []);
   console.log(data)
-
-  // Using useEffect for single rendering
-  useEffect(() => {
-    // Using fetch to fetch the api from 
-    // flask server it will be redirected to proxy
-    fetch("/dashboard/profile").then((res) =>
-        res.json().then((cols) => {
-            // Setting a data from api
-            setColData(cols);
-        })
-    );
-}, []);
-console.log(cols)
-
 
   const columns = [
     { field: "id", headerName: "ID", flex: 0.5 },
