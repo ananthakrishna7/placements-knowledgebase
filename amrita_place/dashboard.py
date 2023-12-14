@@ -105,17 +105,15 @@ def pie():
 @bp.route('/line') # branch wise salary. id and data. id is branch. data {x is year, y is avg_salary}
 def line():
     data = [] # NEED TO FINISH THIS
-    # branches = db_session.execute(select(Degree.programID, Degree.branch).distinct(Degree.branch)).all()
-    # i = 0
-    # roll_numbers = db_session.execute(select(StudentDegreeHolder.rollNumber, StudentDegreeHolder.ProgrammeID)).all()
-    # # FINISH THIS LATER
-    # for branch in branches:
-    #     data.append({'id': branch[1], 'data': []})
-    #     # this query has to be corrected accoring to the new schema
-    #     branch_sal = db_session.execute(select(Student.pass_out_year, func.avg(Student.salary)).where(Student.branch == branch[0]).group_by(Student.pass_out_year).order_by(Student.pass_out_year)).all()
-    #     for sal in branch_sal:
-    #         data[i]['data'].append({'x': sal[0], 'y': sal[1]})
-    #     i += 1
+    i = 0
+    branches = db_session.execute(select(Degree.programID, Degree.branch)).all()
+    for branch in branches:
+        data.append({'id': branch[1], 'data': []})
+        # this query has to be corrected accoring to the new schema
+        branch_sal = db_session.execute(select(Student.pass_out_year, func.avg(Student.salary)).where(Student.programID == branch[0]).group_by(Student.pass_out_year).order_by(Student.pass_out_year)).all()
+        for sal in branch_sal:
+            data[i]['data'].append({'x': sal[0], 'y': sal[1]})
+        i += 1
     return data
 
 @bp.route('/geography')
