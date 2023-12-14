@@ -8,7 +8,7 @@ from werkzeug.exceptions import abort
 from amrita_place.auth import login_required
 from amrita_place.database import db_session
 from amrita_place.models import *
-from sqlalchemy import text, select, exc, func# required if we are going to use queries
+from sqlalchemy import select, exc, func, desc # required if we are going to use queries
 
 bp = Blueprint('dashboard', __name__, url_prefix='/dashboard')
 
@@ -33,8 +33,13 @@ def all_student_data():
     return data
 
 @bp.route('/companyPlacements')
-def all_compant_placements():
-    pass
+def all_company_placements(): # CompanyID, COmpanyName, maybe logo??, ASK PRANEETH, No. of students, Avg salary,  order by avg sal,  
+    data = []
+    comp_place = db_session.execute(select(Company.CompanyID, Company.name, func.count(Student.roll_no), func.avg(Student.salary).label('avg_sal')).join(Student).group_by(Company.CompanyID).order_by(desc('avg_sal'))).all()
+    for row in comp_place:
+        data.append({'id': row[0], 'name': row[1], 'studentCount': row[2], 'avgSalary': row[3]})
+    return jsonify(data)
+
 
 @bp.route('/create', methods=("POST",))
 def create_new_student():
