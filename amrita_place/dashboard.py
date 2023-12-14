@@ -29,9 +29,23 @@ def companies():
 
 @bp.route('/studentData')
 def all_student_data():
-    students = db_session.execute(select(Student.roll_no, Student.name, Student.email_id, Company.name, Student.salary, Student.CGPA, Student.pass_out_year).join(Company)).all()
+    students = db_session.execute(select(Student.roll_no, Student.name, Student.email_id, Company.name, Student.salary, Student.CGPA, Student.pass_out_year, Degree.name, Degree.branch).join(Company).join(Degree)).all()
     data = []
-    return data
+    # Process each student record
+    for student in students:
+        student_data = {
+            "roll_no": student[0],
+            "name": student[1],
+            "email_id": student[2],
+            "company_name": student[3],  # Use alias
+            "salary": student[4],
+            "CGPA": student[5],
+            "pass_out_year": student[6],
+            "degree_name": student[7],  # Use alias
+            "branch": student[8],
+        }
+        data.append(student_data)
+    return jsonify(data)
 
 @bp.route('/companyPlacements')
 def all_company_placements(): # CompanyID, COmpanyName, maybe logo??, ASK PRANEETH, No. of students, Avg salary,  order by avg sal,  
@@ -128,9 +142,6 @@ def line():
         i += 1
     return data
 
-@bp.route('/geography')
-def geography():
-    pass
     # branch_sal = db_session.execute(select(Student.branch, func.avg(Student.salary), Student.pass_out_year).group_by(Student.branch))
     # for row in branch_sal:
     #     data.append({'id': row[0], 'label': row[0], 'value': row[1]})
