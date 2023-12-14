@@ -162,3 +162,4 @@ cython_debug/
 # node modules
 
 ./amrita_place/templates/dashboard/node_modules/.
+amrita_place/database.py
