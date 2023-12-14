@@ -57,6 +57,9 @@ def create_new_student():
         db_session.commit()
         return jsonify({'message': 'Student created successfully'}), 201
 
+    except exc.IntegrityError:
+        return jsonify({"message": "Primary Key constraint violated"}), 500
+    
     except:
         return jsonify({'message':"Error in inserting record"}), 500
     
