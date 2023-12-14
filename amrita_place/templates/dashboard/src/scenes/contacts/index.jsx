@@ -10,7 +10,7 @@ const Contacts = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [data, setdata] = useState([]);
-  const [cols, setColData] = useState([]);
+  // const [cols, setColData] = useState([]);
 
 
   // Using useEffect for single rendering
