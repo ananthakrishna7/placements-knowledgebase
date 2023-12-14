@@ -185,11 +185,11 @@ const Form = () => {
 <TextField
   fullWidth
   variant="filled"
-  type="number"
+  type="text"
   label="Program ID"
   onBlur={handleBlur}
   onChange={handleChange}
-  value={values.adminID}
+  value={values.programID}
   name="programID"
   error={!!touched.adminID && !!errors.adminID}
   helperText={touched.adminID && errors.adminID}
@@ -222,7 +222,7 @@ const phoneRegExp =
     pass_out_year: yup.number().min(1970).max(new Date().getFullYear()).required("required"),
     companyID: yup.number().min(1).required("required"),
     adminID: yup.number().min(1).required("required"),
-    programID: yup.number().min(1).required("required"),
+    programID: yup.string().required("required"),
     phoneNumber: yup
 .string()
 .matches(phoneRegExp, "Phone number is not valid")
@@ -242,7 +242,7 @@ const initialValues = {
   companyID: 3,
   phoneNumber: '',
   adminID: 1,
-  programID: 1,
+  programID: "CSE1",
 };
 
 
