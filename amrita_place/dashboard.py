@@ -76,7 +76,19 @@ def create_new_student():
 
 @bp.route('/interviews')
 def interviews():
-    pass
+    data = []
+    inter = db_session.execute(select(InterviewExperience.interviewID, InterviewExperience.positivePoints, InterviewExperience.improvements, InterviewExperience.isJobSecured, InterviewExperience.companyID, InterviewExperience.rollNumber))
+    for interview in inter:
+        interview_data = {
+            "interviewID": interview[0],
+            "positivePoints": interview[1],
+            "improvements": interview[2],
+            "isJobSecured": interview[3],
+            "companyID": interview[4],
+            "rollNumber": interview[5],
+        }
+        data.append(interview_data)
+    return jsonify(data)
 
 @bp.route('/bar')
 # @login_required # this causes problems with react. So commenting for now.
