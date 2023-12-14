@@ -47,9 +47,10 @@ def create_new_student():
     pass_out_year = request.json['pass_out_year']
     companyID = request.json['companyID']
     adminID = request.json['adminID']
+    programID = request.json['programID']
 
     student = Student(roll_no=roll_no, name=name, email_id=email_id, linkedIN_profile=linkedIN_profile,
-                      salary=salary, CGPA=cgpa, pass_out_year=pass_out_year, companyID=companyID, adminID=adminID)
+                      salary=salary, CGPA=cgpa, pass_out_year=pass_out_year, companyID=companyID, adminID=adminID, programID=programID)
     
     try:
         db_session.add(student)

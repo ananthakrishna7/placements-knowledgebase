@@ -22,6 +22,7 @@ const Form = () => {
   };
   
   const handleFormSubmit = (values) => {
+    createStudent(values);
     console.log(values);
   };
 
@@ -181,12 +182,24 @@ const Form = () => {
   helperText={touched.adminID && errors.adminID}
   sx={{ gridColumn: "span 2" }}
 />
-
+<TextField
+  fullWidth
+  variant="filled"
+  type="number"
+  label="Program ID"
+  onBlur={handleBlur}
+  onChange={handleChange}
+  value={values.adminID}
+  name="programID"
+  error={!!touched.adminID && !!errors.adminID}
+  helperText={touched.adminID && errors.adminID}
+  sx={{ gridColumn: "span 2" }}
+/>
 
             </Box>
             <Box display="flex" justifyContent="end" mt="20px">
               <Button type="submit" color="secondary" variant="contained">
-                Create New User
+                Create New Student
               </Button>
             </Box>
           </form>
@@ -209,6 +222,7 @@ const phoneRegExp =
     pass_out_year: yup.number().min(1970).max(new Date().getFullYear()).required("required"),
     companyID: yup.number().min(1).required("required"),
     adminID: yup.number().min(1).required("required"),
+    programID: yup.number().min(1).required("required"),
     phoneNumber: yup
 .string()
 .matches(phoneRegExp, "Phone number is not valid")
@@ -228,6 +242,7 @@ const initialValues = {
   companyID: 3,
   phoneNumber: '',
   adminID: 1,
+  programID: 1,
 };
 
 
