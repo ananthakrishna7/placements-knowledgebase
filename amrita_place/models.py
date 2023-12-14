@@ -91,7 +91,7 @@ class Degree(Base):
     __tablename__ = 'degree'
     programID = Column(String(50), primary_key=True)
     name = Column(String(100))
-    branch = Column(String(3))
+    branch = Column(String(6))
 
     def __init__(self, programID, name, branch):
         self.programID = programID
