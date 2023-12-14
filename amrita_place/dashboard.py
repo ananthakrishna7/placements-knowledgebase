@@ -22,9 +22,10 @@ def profile():
 @bp.route('/companies')
 def companies():
     data = []
-    comps_sal_place = db_session.execute(select(Company.CompanyID, Company.name, func.max(Student.salary).label('max_salary')).join(Student).group_by(Company.CompanyID)).all()
-    for row in comps_sal_place:
-        pass
+    comps_sal = db_session.execute(select(Company.CompanyID, Company.name, func.max(Student.salary).label('max_salary')).join(Student).group_by(Company.CompanyID)).all()
+    for row in comps_sal:
+        data.append({'id': row[0], 'name': row[1], 'maxSalary': row[2]})
+    return jsonify(data)
 
 @bp.route('/studentData')
 def all_student_data():
