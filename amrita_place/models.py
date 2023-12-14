@@ -54,8 +54,9 @@ class Student(Base):
     pass_out_year = Column(Integer)
     companyID = Column(Integer, ForeignKey('company.CompanyID'))
     adminID = Column(Integer, ForeignKey('administrator.AdminID'))
+    programID = Column(String(50), ForeignKey('degree.programID'))
 
-    def __init__(self, roll_no, email_id, name, linkedIN_profile, salary, CGPA, pass_out_year, companyID, adminID):
+    def __init__(self, roll_no, email_id, name, linkedIN_profile, salary, CGPA, pass_out_year, companyID, adminID, programID):
         self.roll_no = roll_no
         self.email_id = email_id
         self.name = name
@@ -65,6 +66,7 @@ class Student(Base):
         self.pass_out_year = pass_out_year
         self.companyID = companyID
         self.adminID = adminID
+        self.programID = programID
 
 class PhoneNumber(Base):
     __tablename__ = 'phone_number'
@@ -125,17 +127,11 @@ class Administrator(Base):
         self.PasswordHash = PasswordHash
         self.Name = Name
 
-class StudentDegreeHolder(Base):
-    __tablename__ = 'student_degree_holder'
-    rollNumber = Column(String(50), ForeignKey('student.roll_no'), primary_key=True)
-    ProgrammeID=Column(String(50), ForeignKey('degree.programID'))
+# class StudentDegreeHolder(Base):
+#     __tablename__ = 'student_degree_holder'
+#     rollNumber = Column(String(50), ForeignKey('student.roll_no'), primary_key=True)
+#     ProgrammeID=Column(String(50), ForeignKey('degree.programID'))
 
-    def __init__(self, rollNumber, ProgrammeID):
-        self.rollNumber = rollNumber
-        self.ProgrammeID = ProgrammeID
-
-
-
-
-
-    
+#     def __init__(self, rollNumber, ProgrammeID):
+#         self.rollNumber = rollNumber
+#         self.ProgrammeID = ProgrammeID
