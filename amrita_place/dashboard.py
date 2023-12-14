@@ -36,9 +36,31 @@ def all_student_data():
 def all_compant_placements():
     pass
 
-@bp.route('/create')
+@bp.route('/create', methods=("POST",))
 def create_new_student():
-    pass
+    roll_no = request.json['roll_no']
+    name = request.json['name']
+    email_id = request.json['email_id']
+    linkedIN_profile = request.json['linkedIN_profile']
+    salary = request.json['salary']
+    cgpa = request.json['CGPA']
+    pass_out_year = request.json['pass_out_year']
+    companyID = request.json['companyID']
+    adminID = request.json['adminID']
+
+    student = Student(roll_no=roll_no, name=name, email_id=email_id, linkedIN_profile=linkedIN_profile,
+                      salary=salary, CGPA=cgpa, pass_out_year=pass_out_year, companyID=companyID, adminID=adminID)
+    
+    try:
+        db_session.add(student)
+        db_session.commit()
+        return jsonify({'message': 'Student created successfully'}), 201
+
+    except:
+        return jsonify({'message':"Error in inserting record"}), 500
+    
+    
+
 
 @bp.route('/interviews')
 def interviews():
@@ -70,18 +92,18 @@ def pie():
 
 @bp.route('/line') # branch wise salary. id and data. id is branch. data {x is year, y is avg_salary}
 def line():
-    data = []
-    branches = db_session.execute(select(Degree.programID, Degree.branch).distinct(Degree.branch)).all()
-    i = 0
-    roll_numbers = db.db_session.execute(select(StudentDegreeHolder.rollNumber, StudentDegreeHolder.ProgrammeID)).all()
-    # FINISH THIS LATER
-    for branch in branches:
-        data.append({'id': branch[1], 'data': []})
-        # this query has to be corrected accoring to the new schema
-        branch_sal = db_session.execute(select(Student.pass_out_year, func.avg(Student.salary)).where(Student.branch == branch[0]).group_by(Student.pass_out_year).order_by(Student.pass_out_year)).all()
-        for sal in branch_sal:
-            data[i]['data'].append({'x': sal[0], 'y': sal[1]})
-        i += 1
+    data = [] # NEED TO FINISH THIS
+    # branches = db_session.execute(select(Degree.programID, Degree.branch).distinct(Degree.branch)).all()
+    # i = 0
+    # roll_numbers = db_session.execute(select(StudentDegreeHolder.rollNumber, StudentDegreeHolder.ProgrammeID)).all()
+    # # FINISH THIS LATER
+    # for branch in branches:
+    #     data.append({'id': branch[1], 'data': []})
+    #     # this query has to be corrected accoring to the new schema
+    #     branch_sal = db_session.execute(select(Student.pass_out_year, func.avg(Student.salary)).where(Student.branch == branch[0]).group_by(Student.pass_out_year).order_by(Student.pass_out_year)).all()
+    #     for sal in branch_sal:
+    #         data[i]['data'].append({'x': sal[0], 'y': sal[1]})
+    #     i += 1
     return data
 
 @bp.route('/geography')
