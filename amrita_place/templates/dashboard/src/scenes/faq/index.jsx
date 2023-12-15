@@ -25,8 +25,13 @@ useEffect(() => {
         })
     );
 }, []);
-console.log(data, data[0]);
-
+// console.log(data, data[0].positivePoints);
+// var company = data[0].companyName;
+// var positivePoints = data[0].positivePoints;
+// var improve = data[0].improvements;
+var company = "Google LLC";
+var positivePoints = "Good start, managed ok with the technical questions";
+var improve = "Must work on presentation skills";
   return (
     <Box m="20px">
       <Header title="INTERVIEW EXPERIENCE" subtitle="A list of student interview experiences" />
@@ -34,16 +39,16 @@ console.log(data, data[0]);
       <Accordion defaultExpanded>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography color={colors.greenAccent[500]} variant="h5">
-            {data[0]['companyName']} Interview Experience
+          {company} - Interview Experience 
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Positive points: {data[0]['positivePoints']}. Scope for inprovement: {data[0]['improvements']}
+            Positive points: {positivePoints}. Scope for improvement: {improve}
           </Typography>
         </AccordionDetails>
       </Accordion>
-      <Accordion defaultExpanded>
+      {/* <Accordion defaultExpanded>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography color={colors.greenAccent[500]} variant="h5">
             {data[0]['companyName']} Interview Experience
@@ -81,9 +86,9 @@ console.log(data, data[0]);
       </Accordion>
       <Accordion defaultExpanded>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+        </Typography>
           <Typography color={colors.greenAccent[500]} variant="h5">
             {data[0]['companyName']} Interview Experience
-          </Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
@@ -91,6 +96,8 @@ console.log(data, data[0]);
           </Typography>
         </AccordionDetails>
       </Accordion>
+
+
       {/* <Accordion defaultExpanded> */}
         {/* <AccordionSummary expandIcon={<ExpandMoreIcon />}> */}
           {/* <Typography color={colors.greenAccent[500]} variant="h5">
@@ -124,9 +131,9 @@ console.log(data, data[0]);
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget.
+          <Typography> */}
+            {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse */}
+            {/* malesuada lacus ex, sit amet blandit leo lobortis eget.
           </Typography>
         </AccordionDetails>
       </Accordion>
@@ -142,7 +149,7 @@ console.log(data, data[0]);
             malesuada lacus ex, sit amet blandit leo lobortis eget.
           </Typography>
         </AccordionDetails>
-      </Accordion> */}
+      </Accordion> */} 
     </Box>
   );
 };
