@@ -6,10 +6,26 @@ import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettin
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import Header from "../../components/Header";
+import { useState, useEffect } from "react";
 
 const Team = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const [data, setdata] = useState([]);
+
+// Using useEffect for single rendering
+useEffect(() => {
+    // Using fetch to fetch the api from 
+    // flask server it will be redirected to proxy
+    fetch("/dashboard/companies").then((res) =>
+        res.json().then((data) => {
+            // Setting a data from api
+            setdata(data);
+        })
+    );
+}, []);
+console.log(data);
   const columns = [
     { field: "id", headerName: "ID" },
     {
@@ -100,7 +116,7 @@ const Team = () => {
           },
         }}
       >
-        <DataGrid checkboxSelection rows={mockDataTeam} columns={columns} />
+        <DataGrid checkboxSelection rows={data} columns={columns} />
       </Box>
     </Box>
   );
