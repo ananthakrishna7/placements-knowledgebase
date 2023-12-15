@@ -6,30 +6,94 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { tokens } from "../../theme";
+import { useState, useEffect } from "react";
 
 const FAQ = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const [data, setdata] = useState([]);
+
+// Using useEffect for single rendering
+useEffect(() => {
+    // Using fetch to fetch the api from 
+    // flask server it will be redirected to proxy
+    fetch("/dashboard/interviews").then((res) =>
+        res.json().then((data) => {
+            // Setting a data from api
+            setdata(data);
+        })
+    );
+}, []);
+console.log(data, data[0]);
+
   return (
     <Box m="20px">
-      <Header title="FAQ" subtitle="Frequently Asked Questions Page" />
+      <Header title="INTERVIEW EXPERIENCE" subtitle="A list of student interview experiences" />
 
       <Accordion defaultExpanded>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography color={colors.greenAccent[500]} variant="h5">
-            An Important Question
+            {data[0]['companyName']} Interview Experience
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget.
+            Positive points: {data[0]['positivePoints']}. Scope for inprovement: {data[0]['improvements']}
           </Typography>
         </AccordionDetails>
       </Accordion>
       <Accordion defaultExpanded>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography color={colors.greenAccent[500]} variant="h5">
+            {data[0]['companyName']} Interview Experience
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>
+            Positive points: {data[0]['positivePoints']}. Scope for inprovement: {data[0]['improvements']}
+          </Typography>
+        </AccordionDetails>
+      </Accordion>
+      <Accordion defaultExpanded>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography color={colors.greenAccent[500]} variant="h5">
+            {data[0]['companyName']} Interview Experience
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>
+            Positive points: {data[0]['positivePoints']}. Scope for inprovement: {data[0]['improvements']}
+          </Typography>
+        </AccordionDetails>
+      </Accordion>
+      <Accordion defaultExpanded>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography color={colors.greenAccent[500]} variant="h5">
+            {data[0]['companyName']} Interview Experience
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>
+            Positive points: {data[0]['positivePoints']}. Scope for inprovement: {data[0]['improvements']}
+          </Typography>
+        </AccordionDetails>
+      </Accordion>
+      <Accordion defaultExpanded>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography color={colors.greenAccent[500]} variant="h5">
+            {data[0]['companyName']} Interview Experience
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>
+            Positive points: {data[0]['positivePoints']}. Scope for inprovement: {data[0]['improvements']}
+          </Typography>
+        </AccordionDetails>
+      </Accordion>
+      {/* <Accordion defaultExpanded> */}
+        {/* <AccordionSummary expandIcon={<ExpandMoreIcon />}> */}
+          {/* <Typography color={colors.greenAccent[500]} variant="h5">
             Another Important Question
           </Typography>
         </AccordionSummary>
@@ -78,7 +142,7 @@ const FAQ = () => {
             malesuada lacus ex, sit amet blandit leo lobortis eget.
           </Typography>
         </AccordionDetails>
-      </Accordion>
+      </Accordion> */}
     </Box>
   );
 };
