@@ -77,6 +77,11 @@
     color: var(--color-white);
   }
   
+  .learn_more{
+    border-radius: 25px;
+    border: #b10f56 1px solid ;
+  }
+
   img {
     width: 100%;
     display: block;
@@ -168,6 +173,7 @@
     padding-top: 0px;
     background: var(--color-bg1);
     height: 32rem;
+    border-radius: 47px;
   }
   
   .categories h1 {

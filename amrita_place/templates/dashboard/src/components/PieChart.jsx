@@ -78,7 +78,7 @@ console.log(data)
           type: "patternDots",
           background: "inherit",
           color: "rgba(255, 255, 255, 0.3)",
-          size: 4,
+          size: 4  ,
           padding: 1,
           stagger: true,
         },
