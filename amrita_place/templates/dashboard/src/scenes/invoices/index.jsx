@@ -3,10 +3,25 @@ import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import { mockDataInvoices } from "../../data/mockData";
 import Header from "../../components/Header";
+import { useState, useEffect } from "react";
 
 const Invoices = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [data, setdata] = useState([]);
+
+  // Using useEffect for single rendering
+  useEffect(() => {
+      // Using fetch to fetch the api from 
+      // flask server it will be redirected to proxy
+      fetch("/dashboard/companyPlacements").then((res) =>
+          res.json().then((data) => {
+              // Setting a data from api
+              setdata(data);
+          })
+      );
+  }, []);
+  console.log(data);
   const columns = [
     { field: "id", headerName: "ID" },
     {
@@ -74,7 +89,7 @@ const Invoices = () => {
           },
         }}
       >
-        <DataGrid checkboxSelection rows={mockDataInvoices} columns={columns} />
+        <DataGrid checkboxSelection rows={data} columns={columns} />
       </Box>
     </Box>
   );
