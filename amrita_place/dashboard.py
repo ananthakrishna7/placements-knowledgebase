@@ -34,7 +34,7 @@ def all_student_data():
     # Process each student record
     for student in students:
         student_data = {
-            "roll_no": student[0],
+            "id": student[0],
             "name": student[1],
             "email_id": student[2],
             "company_name": student[3],  # Use alias
