@@ -91,15 +91,14 @@ def create_new_student():
 @bp.route('/interviews')
 def interviews():
     data = []
-    inter = db_session.execute(select(InterviewExperience.interviewID, InterviewExperience.positivePoints, InterviewExperience.improvements, InterviewExperience.isJobSecured, InterviewExperience.companyID, InterviewExperience.rollNumber))
+    inter = db_session.execute(select(InterviewExperience.interviewID, InterviewExperience.positivePoints, InterviewExperience.improvements, InterviewExperience.isJobSecured, Company.name).select_from(InterviewExperience).join(Company)).all()
     for interview in inter:
         interview_data = {
             "interviewID": interview[0],
             "positivePoints": interview[1],
             "improvements": interview[2],
             "isJobSecured": interview[3],
-            "companyID": interview[4],
-            "rollNumber": interview[5],
+            "companyName": interview[4],
         }
         data.append(interview_data)
     return jsonify(data)
