@@ -21,6 +21,21 @@ useEffect(() => {
 }, []);
 console.log(data)
 
+const [companies, setcomp] = useState([]);
+
+// Using useEffect for single rendering
+useEffect(() => {
+    // Using fetch to fetch the api from 
+    // flask server it will be redirected to proxy
+    fetch("/dashboard/barCompanies").then((res) =>
+        res.json().then((companies) => {
+            // Setting a data from api
+            setcomp(companies);
+        })
+    );
+}, []);
+console.log(companies);
+
   return (
     <ResponsiveBar
       data={data}
@@ -54,8 +69,9 @@ console.log(data)
         },
       }}
       // keys={["hot dog", "burger", "sandwich", "kebab", "fries", "donut"]}
-      keys = {["Facebook, Inc.", "Apple Inc.", "Microsoft Corporation", "Google LLC"]} // these are the different categories.
+      // keys = {["Facebook, Inc.", "Apple Inc.", "Microsoft Corporation", "Google LLC"]} // these are the different categories.
       // indexBy="country"
+      keys = {companies['companies']}
       indexBy="year"
       margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
       padding={0.3}

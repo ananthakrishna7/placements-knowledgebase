@@ -118,6 +118,15 @@ def bar(): # this displays company wise placements in the last ten years
             if jas['year'] == row[0]: # add company count to respective years
                 jas[row[1]] = row[2]
     return data
+
+@bp.route('/barCompanies')
+def barCompanies():
+    data = {'companies': []}
+    comp = db_session.execute(select(Company.name))
+    for company in comp:
+        data['companies'].append(company[0])
+    return jsonify(data)
+
 # pie is company composition for current year
 @bp.route('/pie')
 def pie():
